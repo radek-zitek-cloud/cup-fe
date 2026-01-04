@@ -17,4 +17,4 @@ TAG=$VERSION docker compose build frontend
 # Also tag as latest
 TAG=latest docker compose build frontend
 
-echo "Successfully built cup-fe-frontend:$VERSION and cup-fe-frontend:latest"
+echo "Successfully built cup-fe:$VERSION and cup-fe:latest"

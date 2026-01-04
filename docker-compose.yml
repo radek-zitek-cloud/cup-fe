@@ -1,7 +1,7 @@
 services:
   frontend:
     build: .
-    image: cup-fe-frontend:${TAG:-latest}
+    image: cup-fe:${TAG:-latest}
     ports:
       - "3000:80"
     environment:
