@@ -16,11 +16,13 @@ Skeleton React + TypeScript + Vite frontend for the CUP platform.
 ### Local Development
 
 1. Install dependencies:
+
    ```bash
    make install
    ```
 
 2. Run development server:
+
    ```bash
    make dev
    ```
@@ -33,6 +35,7 @@ Skeleton React + TypeScript + Vite frontend for the CUP platform.
 ### Docker
 
 1. Start the application:
+
    ```bash
    make up
    ```
@@ -41,19 +44,20 @@ Skeleton React + TypeScript + Vite frontend for the CUP platform.
 
 ## Available Commands
 
-| Command | Description |
-|---------|-------------|
-| `make up` | Start Docker containers |
-| `make down` | Stop Docker containers |
-| `make build` | Build Docker images with version tags |
-| `make test` | Run Vitest tests |
-| `make lint` | Run ESLint with fixes |
-| `make format` | Format code with Prettier |
-| `make docs` | Generate API documentation |
-| `make release-patch` | Bump version and create a release |
+| Command              | Description                           |
+| -------------------- | ------------------------------------- |
+| `make up`            | Start Docker containers               |
+| `make down`          | Stop Docker containers                |
+| `make build`         | Build Docker images with version tags |
+| `make test`          | Run Vitest tests                      |
+| `make lint`          | Run ESLint with fixes                 |
+| `make format`        | Format code with Prettier             |
+| `make docs`          | Generate API documentation            |
+| `make release-patch` | Bump version and create a release     |
 
 ## Configuration
 
 The frontend communicates with the backend via `VITE_API_URL`.
+
 - In development: Set in `.env`.
 - In Docker: Set via the `VITE_API_URL` environment variable.
