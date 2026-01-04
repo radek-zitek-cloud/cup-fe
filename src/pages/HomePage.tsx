@@ -1,10 +1,11 @@
 import React from 'react';
 import { Container, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const HomePage: React.FC = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <Container className="text-center mt-5">
@@ -16,11 +17,11 @@ const HomePage: React.FC = () => {
             It handles authentication and user profile management out of the box.
           </p>
           {user ? (
-            <Button as={Link} to="/profile" variant="primary" size="lg">Go to Profile</Button>
+            <Button onClick={() => navigate('/profile')} variant="primary" size="lg">Go to Profile</Button>
           ) : (
             <div className="d-flex justify-content-center gap-3">
-              <Button as={Link} to="/login" variant="primary" size="lg">Login</Button>
-              <Button as={Link} to="/signup" variant="outline-primary" size="lg">Signup</Button>
+              <Button onClick={() => navigate('/login')} variant="primary" size="lg">Login</Button>
+              <Button onClick={() => navigate('/signup')} variant="outline-primary" size="lg">Signup</Button>
             </div>
           )}
         </div>

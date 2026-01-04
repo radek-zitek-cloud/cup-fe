@@ -4,5 +4,4 @@ dist
 .gitignore
 Dockerfile
 docker-compose.yml
-nginx.conf
 README.md

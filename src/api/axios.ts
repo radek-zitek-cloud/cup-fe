@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'https://cup-be-production.up.railway.app';
+// @ts-ignore
+const API_BASE_URL = window._env_?.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 const api = axios.create({
   baseURL: API_BASE_URL,

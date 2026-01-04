@@ -62,13 +62,13 @@ docs:
 
 # Version & Release
 bump-patch:
-	python3 scripts/bump_version.py patch
+	./scripts/bump_version.sh patch
 
 bump-minor:
-	python3 scripts/bump_version.py minor
+	./scripts/bump_version.sh minor
 
 bump-major:
-	python3 scripts/bump_version.py major
+	./scripts/bump_version.sh major
 
 release-patch:
 	./scripts/release.sh patch
