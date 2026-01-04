@@ -27,9 +27,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     await refreshUser();
   };
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    setUser(null);
+  const logout = async () => {
+    try {
+      await api.post("/login/logout");
+    } catch {
+      // Ignore errors during logout (e.g. token already expired)
+    } finally {
+      localStorage.removeItem("token");
+      setUser(null);
+    }
   };
 
   useEffect(() => {
