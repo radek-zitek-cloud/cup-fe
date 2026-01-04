@@ -1,73 +1,59 @@
-# React + TypeScript + Vite
+# CUP Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Skeleton React + TypeScript + Vite frontend for the CUP platform.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Authentication**: Signup, Login, and Logout.
+- **User Management**: Profile viewing, updating (Full Name), and password changes.
+- **Runtime Configuration**: API URL can be changed at runtime via environment variables in Docker.
+- **Dockerized**: Multi-stage build with Nginx for production.
+- **Testing**: Built-in Vitest and React Testing Library setup.
+- **Developer Experience**: Comprehensive `Makefile` for all common tasks.
 
-## React Compiler
+## Quick Start
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Local Development
 
-## Expanding the ESLint configuration
+1. Install dependencies:
+   ```bash
+   make install
+   ```
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+2. Run development server:
+   ```bash
+   make dev
+   ```
 
-```js
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
+3. Run tests:
+   ```bash
+   make test
+   ```
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Docker
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+1. Start the application:
+   ```bash
+   make up
+   ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. The application will be available at `http://localhost:3000`.
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
+## Available Commands
 
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs["recommended-typescript"],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+| Command | Description |
+|---------|-------------|
+| `make up` | Start Docker containers |
+| `make down` | Stop Docker containers |
+| `make build` | Build Docker images with version tags |
+| `make test` | Run Vitest tests |
+| `make lint` | Run ESLint with fixes |
+| `make format` | Format code with Prettier |
+| `make docs` | Generate API documentation |
+| `make release-patch` | Bump version and create a release |
+
+## Configuration
+
+The frontend communicates with the backend via `VITE_API_URL`.
+- In development: Set in `.env`.
+- In Docker: Set via the `VITE_API_URL` environment variable.
