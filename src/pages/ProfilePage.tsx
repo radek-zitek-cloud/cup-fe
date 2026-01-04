@@ -44,8 +44,7 @@ const ProfilePage: React.FC = () => {
     if (user) {
       resetProfile({
         email: user.email,
-        first_name: user.first_name || "",
-        last_name: user.last_name || "",
+        full_name: user.full_name || "",
       });
     }
   }, [user, resetProfile]);
@@ -142,9 +141,7 @@ const ProfilePage: React.FC = () => {
                   {user.email.charAt(0).toUpperCase()}
                 </div>
               </div>
-              <Card.Title>
-                {user.first_name} {user.last_name}
-              </Card.Title>
+              <Card.Title>{user.full_name || "User"}</Card.Title>
               <Card.Text className="text-muted">{user.email}</Card.Text>
               <hr />
               <div className="text-start">
@@ -153,7 +150,7 @@ const ProfilePage: React.FC = () => {
                   {user.is_active ? "Active" : "Inactive"}
                 </p>
                 <p>
-                  <strong>Verified:</strong> {user.is_verified ? "Yes" : "No"}
+                  <strong>Superuser:</strong> {user.is_super ? "Yes" : "No"}
                 </p>
               </div>
             </Card.Body>
@@ -191,17 +188,10 @@ const ProfilePage: React.FC = () => {
                         </Form.Text>
                       </Form.Group>
                       <Form.Group className="mb-3">
-                        <Form.Label>First Name</Form.Label>
+                        <Form.Label>Full Name</Form.Label>
                         <Form.Control
                           type="text"
-                          {...regProfile("first_name")}
-                        />
-                      </Form.Group>
-                      <Form.Group className="mb-3">
-                        <Form.Label>Last Name</Form.Label>
-                        <Form.Control
-                          type="text"
-                          {...regProfile("last_name")}
+                          {...regProfile("full_name")}
                         />
                       </Form.Group>
                       <Button
