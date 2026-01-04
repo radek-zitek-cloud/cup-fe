@@ -12,7 +12,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import type { FieldValues } from "react-hook-form";
 import api from "../api/axios";
-import { useAuth } from "../hooks/useAuth";
 
 const SignupPage: React.FC = () => {
   const {
@@ -23,7 +22,6 @@ const SignupPage: React.FC = () => {
   } = useForm();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
   const navigate = useNavigate();
 
   const password = watch("password");
