@@ -1,46 +1,39 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import type { ReactNode } from 'react';
-import api from '../api/axios';
-import type { User } from '../types/auth';
+import React, { useState, useEffect } from "react";
+import type { ReactNode } from "react";
+import api from "../api/axios";
+import type { User } from "../types/auth";
+import { AuthContext } from "./AuthContextType";
 
-interface AuthContextType {
-  user: User | null;
-  loading: boolean;
-  login: (token: string) => Promise<void>;
-  logout: () => void;
-  refreshUser: () => Promise<void>;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   const refreshUser = async () => {
     try {
-      const response = await api.get<User>('/users/me');
+      const response = await api.get<User>("/users/me");
       setUser(response.data);
-    } catch (error) {
+    } catch {
       setUser(null);
-      localStorage.removeItem('token');
+      localStorage.removeItem("token");
     } finally {
       setLoading(false);
     }
   };
 
   const login = async (token: string) => {
-    localStorage.setItem('token', token);
+    localStorage.setItem("token", token);
     await refreshUser();
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     setUser(null);
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       refreshUser();
     } else {
@@ -53,12 +46,4 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       {children}
     </AuthContext.Provider>
   );
-};
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
 };

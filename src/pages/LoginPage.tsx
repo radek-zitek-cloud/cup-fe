@@ -1,35 +1,55 @@
-import React, { useState } from 'react';
-import { Form, Button, Container, Row, Col, Card, Alert } from 'react-bootstrap';
-import { useNavigate, Link } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import api from '../api/axios';
-import { useAuth } from '../context/AuthContext';
+import React, { useState } from "react";
+import {
+  Form,
+  Button,
+  Container,
+  Row,
+  Col,
+  Card,
+  Alert,
+} from "react-bootstrap";
+import { useNavigate, Link } from "react-router-dom";
+import { useForm, FieldValues } from "react-hook-form";
+import api from "../api/axios";
+import { useAuth } from "../hooks/useAuth";
 
 const LoginPage: React.FC = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: FieldValues) => {
     setLoading(true);
     setError(null);
     try {
       const formData = new URLSearchParams();
-      formData.append('username', data.email);
-      formData.append('password', data.password);
+      formData.append("username", data.email);
+      formData.append("password", data.password);
 
-      const response = await api.post('/auth/login', formData, {
+      const response = await api.post("/auth/login", formData, {
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          "Content-Type": "application/x-www-form-urlencoded",
         },
       });
 
       await login(response.data.access_token);
-      navigate('/');
-    } catch (err: any) {
-      setError(err.response?.data?.detail || 'Failed to login. Please check your credentials.');
+      navigate("/");
+    } catch (err: unknown) {
+      if (err && typeof err === "object" && "response" in err) {
+        const axiosErr = err as { response: { data: { detail?: string } } };
+        setError(
+          axiosErr.response?.data?.detail ||
+            "Failed to login. Please check your credentials.",
+        );
+      } else {
+        setError("An unexpected error occurred.");
+      }
     } finally {
       setLoading(false);
     }
@@ -42,14 +62,18 @@ const LoginPage: React.FC = () => {
           <Card>
             <Card.Body>
               <Card.Title className="text-center mb-4">Login</Card.Title>
-              {error && <Alert variant="danger">{typeof error === 'string' ? error : JSON.stringify(error)}</Alert>}
+              {error && (
+                <Alert variant="danger">
+                  {typeof error === "string" ? error : JSON.stringify(error)}
+                </Alert>
+              )}
               <Form onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label>Email address</Form.Label>
                   <Form.Control
                     type="email"
                     placeholder="Enter email"
-                    {...register('email', { required: 'Email is required' })}
+                    {...register("email", { required: "Email is required" })}
                     isInvalid={!!errors.email}
                   />
                   <Form.Control.Feedback type="invalid">
@@ -62,7 +86,9 @@ const LoginPage: React.FC = () => {
                   <Form.Control
                     type="password"
                     placeholder="Password"
-                    {...register('password', { required: 'Password is required' })}
+                    {...register("password", {
+                      required: "Password is required",
+                    })}
                     isInvalid={!!errors.password}
                   />
                   <Form.Control.Feedback type="invalid">
@@ -72,7 +98,7 @@ const LoginPage: React.FC = () => {
 
                 <div className="d-grid gap-2">
                   <Button variant="primary" type="submit" disabled={loading}>
-                    {loading ? 'Logging in...' : 'Login'}
+                    {loading ? "Logging in..." : "Login"}
                   </Button>
                 </div>
               </Form>

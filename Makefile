@@ -1,4 +1,4 @@
-.PHONY: help up down restart logs build install dev build-prod docs bump-patch bump-minor bump-major release-patch release-minor release-major git-status git-push
+.PHONY: help up down restart logs build install dev build-prod lint format docs bump-patch bump-minor bump-major release-patch release-minor release-major git-status git-push
 
 # Default target
 help:
@@ -14,6 +14,8 @@ help:
 	@echo "    make install         - Install dependencies"
 	@echo "    make dev             - Run local development server"
 	@echo "    make build-prod      - Build for production"
+	@echo "    make lint            - Run linter"
+	@echo "    make format          - Format code with Prettier"
 	@echo ""
 	@echo "  Documentation:"
 	@echo "    make docs            - Generate API documentation"
@@ -55,6 +57,12 @@ dev:
 
 build-prod:
 	npm run build
+
+lint:
+	npm run lint:fix
+
+format:
+	npm run format
 
 # Documentation
 docs:
