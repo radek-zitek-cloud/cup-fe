@@ -24,6 +24,10 @@ fi
 
 echo "New version: $NEW_VERSION"
 
+# Run tests
+echo "Running tests..."
+npm run test
+
 # Run build to ensure everything is fine
 echo "Running build check..."
 npm run build

@@ -9,7 +9,8 @@ import {
   Alert,
 } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
-import { useForm, FieldValues } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import type { FieldValues } from "react-hook-form";
 import api from "../api/axios";
 import { useAuth } from "../hooks/useAuth";
 
@@ -31,14 +32,12 @@ const SignupPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await api.post("/auth/register", {
+      await api.post("/users/signup", {
         email: data.email,
         password: data.password,
       });
 
-      // The register endpoint returns the token directly in this API design
-      await login(response.data.access_token);
-      navigate("/");
+      navigate("/login");
     } catch (err: unknown) {
       if (err && typeof err === "object" && "response" in err) {
         const axiosErr = err as {

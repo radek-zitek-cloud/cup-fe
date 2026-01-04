@@ -9,7 +9,8 @@ import {
   Alert,
 } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
-import { useForm, FieldValues } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import type { FieldValues } from "react-hook-form";
 import api from "../api/axios";
 import { useAuth } from "../hooks/useAuth";
 
@@ -32,7 +33,7 @@ const LoginPage: React.FC = () => {
       formData.append("username", data.email);
       formData.append("password", data.password);
 
-      const response = await api.post("/auth/login", formData, {
+      const response = await api.post("/login/access-token", formData, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },

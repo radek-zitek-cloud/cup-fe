@@ -1,10 +1,17 @@
-import axios from 'axios';
+import axios from "axios";
 
-// @ts-expect-error window._env_ is defined in env-config.js at runtime
+declare global {
+  interface Window {
+    _env_?: {
+      VITE_API_URL?: string;
+    };
+  }
+}
+
 const API_BASE_URL =
-  window._env_?.VITE_API_URL ||
-  import.meta.env.VITE_API_URL ||
-  'http://localhost:8000';
+  (window._env_?.VITE_API_URL ||
+    import.meta.env.VITE_API_URL ||
+    "http://localhost:8000") + "/api/v1";
 
 const api = axios.create({
   baseURL: API_BASE_URL,

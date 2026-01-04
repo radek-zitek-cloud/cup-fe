@@ -10,7 +10,8 @@ import {
   Tab,
   Nav,
 } from "react-bootstrap";
-import { useForm, FieldValues } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import type { FieldValues } from "react-hook-form";
 import api from "../api/axios";
 import { useAuth } from "../hooks/useAuth";
 
@@ -53,7 +54,7 @@ const ProfilePage: React.FC = () => {
     setLoadingProfile(true);
     setProfileMsg(null);
     try {
-      await api.patch(`/users/${user?.id}`, data);
+      await api.patch("/users/me", data);
       await refreshUser();
       setProfileMsg({ type: "success", text: "Profile updated successfully!" });
     } catch (err: unknown) {
@@ -63,12 +64,21 @@ const ProfilePage: React.FC = () => {
         };
         const detail = axiosErr.response?.data?.detail;
         if (Array.isArray(detail)) {
-          setProfileMsg({ type: "danger", text: detail[0]?.msg || "Failed to update profile." });
+          setProfileMsg({
+            type: "danger",
+            text: detail[0]?.msg || "Failed to update profile.",
+          });
         } else {
-          setProfileMsg({ type: "danger", text: detail || "Failed to update profile." });
+          setProfileMsg({
+            type: "danger",
+            text: detail || "Failed to update profile.",
+          });
         }
       } else {
-        setProfileMsg({ type: "danger", text: "An unexpected error occurred." });
+        setProfileMsg({
+          type: "danger",
+          text: "An unexpected error occurred.",
+        });
       }
     } finally {
       setLoadingProfile(false);
@@ -79,8 +89,8 @@ const ProfilePage: React.FC = () => {
     setLoadingPassword(true);
     setPasswordMsg(null);
     try {
-      await api.post("/auth/jwt/change-password", {
-        password: data.old_password,
+      await api.patch("/users/me/password", {
+        current_password: data.old_password,
         new_password: data.new_password,
       });
       setPasswordMsg({
@@ -96,7 +106,10 @@ const ProfilePage: React.FC = () => {
           text: axiosErr.response?.data?.detail || "Failed to change password.",
         });
       } else {
-        setPasswordMsg({ type: "danger", text: "An unexpected error occurred." });
+        setPasswordMsg({
+          type: "danger",
+          text: "An unexpected error occurred.",
+        });
       }
     } finally {
       setLoadingPassword(false);
