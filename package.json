@@ -1,7 +1,7 @@
 {
   "name": "cup-fe",
   "private": true,
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,7 +10,7 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "preview": "vite preview",
-    "docs": "typedoc --out docs src",
+    "docs": "typedoc --out docs --entryPointStrategy expand src",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage"
